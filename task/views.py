@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated,))
+# @permission_classes((IsAuthenticated,))
 def task_list(request):
     print(request.user, request.user.username)
     tasks = Task.objects.all()
