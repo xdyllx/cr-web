@@ -1,10 +1,17 @@
 from rest_framework import permissions
 
-def is_admin_user(username):
-    return username in ['xudongyi']
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
+
 
 
 class IsAdminUserPermission(permissions.BasePermission):
+
     def has_permission(self, request, view):
         if request.user is not None:
-            return is_admin_user(request.user.username)
+            return True

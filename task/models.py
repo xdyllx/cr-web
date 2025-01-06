@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.utils import timezone
 
 
 class Task(models.Model):
@@ -9,7 +10,7 @@ class Task(models.Model):
     owner = models.CharField(max_length=30)
     intro = models.CharField(max_length=100, default='')
 
-    created_time = models.DateTimeField(default=datetime.datetime.now)
+    created_time = models.DateTimeField(default=timezone.now)
 
     reviewer = models.CharField(max_length=30, blank=True)
 
@@ -17,12 +18,14 @@ class Task(models.Model):
         (1, '待处理'),
         (2, '进行中'),
         (3, '已通过'),
-        (3, '已驳回'),
+        (4, '已驳回'),
         (5, '已废弃'),
     )
 
     # 1 待处理 2 进行中 3 已完成 4 已废弃
-    status = models.SmallIntegerField(default=0, choices=status_choices)
+    status = models.SmallIntegerField(default=1, choices=status_choices)
+
+    reviewer_note = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
-        return self.url + self.owner
+        return self.url + ' ' + self.owner
